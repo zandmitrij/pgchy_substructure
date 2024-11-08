@@ -16,5 +16,5 @@ INSERT INTO public.mol_table (smiles, mol_bytes) VALUES
 
 
 
-SELECT * from public.mol_table
-WHERE is_substructure(smarts_to_bytes('CCC'), mol_bytes);
+SELECT smiles from public.mol_table
+WHERE is_substructure(smarts_to_bytes('CCCC'), mol_bytes);
