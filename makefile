@@ -10,7 +10,7 @@ PGXS := $(shell $(PG_CONFIG) --pgxs)
 include $(PGXS)
 
 PG_CFLAGS += -I$(shell $(PG_CONFIG) --includedir-server) -O3 -msse4.2
-
+PG_CFLAGS += src/*
 install:
 	$(MKDIR_P) '$(DESTDIR)$(shell $(PG_CONFIG) --pkglibdir)'
 	$(INSTALL_SHLIB) pgchy_substructure.so '$(DESTDIR)$(shell $(PG_CONFIG) --pkglibdir)'
