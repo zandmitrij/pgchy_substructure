@@ -32,6 +32,7 @@ language plpython3u
 as $function$
 import chython
 from sys import byteorder
+from array import array
 mol_container = chython.smiles(smiles)
 package = []
 for x in mol_container._cython_compiled_structure:
