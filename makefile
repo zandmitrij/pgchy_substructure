@@ -1,7 +1,7 @@
 EXTENSION = pgchy_substructure
 MODULE_big = pgchy_substructure
 DATA = sql/pgchy_substructure--1.0.sql
-OBJS = src/pgchy_substructure.o
+OBJS = src/pgchy_substructure.o src/mol.o src/get_mapping.o src/query.o src/utils.o
 
 PG_CONFIG = pg_config
 
