@@ -6,6 +6,7 @@
 #include <includes/mol.h>
 #include <includes/query.h>
 #include <includes/utils.h>
+#include <includes/get_mapping.h>
 
 #include "postgres.h"
 #include "fmgr.h"
