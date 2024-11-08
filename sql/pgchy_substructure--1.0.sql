@@ -25,3 +25,27 @@ try:
 except Exception as e:
     return None
 $function$;
+
+
+
+create or replace function smiles_to_bytes(smiles text)
+returns bytea
+language plpython3u
+as $function$
+import chython
+from sys import byteorder
+try:
+    mol_container = chython.smiles(smiles)
+    package = []
+    for x in mol_container._cython_compiled_structure:
+        package.append((x.itemsize * len(x) + 2).to_bytes(2, byteorder))
+        print((x.itemsize * len(x) + 2))
+        package.append(x)
+    x = array('I', [1 for _ in mol_container])
+    package.append((x.itemsize * len(x) + 2).to_bytes(2, byteorder))
+    package.append(x)
+    return b''.join(package)
+
+except Exception as e:
+    return None
+$function$;

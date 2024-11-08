@@ -54,13 +54,13 @@ jobs:
         psql -h localhost -d my_database -c "CREATE EXTENSION plpython3u;"
         psql -h localhost -d my_database -c "CREATE EXTENSION pgchy_substructure;"
           
-    # - name: Run tests
-    #   shell: bash -l {0}
-    #   env:
-    #     PGUSER: postgres
-    #     PGPASSWORD: postgres
-    #   run: |
-    #     psql -h localhost -d my_database -U postgres -f ./sql/test.sql
+    - name: Run tests
+      shell: bash -l {0}
+      env:
+        PGUSER: postgres
+        PGPASSWORD: postgres
+      run: |
+        psql -h localhost -d my_database -U postgres -f ./sql/test.sql
 
     # - name: SQL benchmark
     #   shell: bash -l {0}
