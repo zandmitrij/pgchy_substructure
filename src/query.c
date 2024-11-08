@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <includes/query.h>
+#include <includes/utils.h>
 
 
 QMol create_QMol(char* buffer) {
