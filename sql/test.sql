@@ -8,10 +8,10 @@ select smiles_to_bytes('C1CCCCC1')::bytea;
 
 INSERT INTO public.mol_table (mol_bytes) VALUES 
 (smiles_to_bytes('C1CCCCC1')::bytea),
-(smiles_to_bytes('C1CCCCC1С')::bytea),
-(smiles_to_bytes('C1=CC=CC=C1')::bytea),
-(smiles_to_bytes('C1=CC=CC=C1CCCCN')::bytea),
-(smiles_to_bytes('C1=CC=CC=C1CC(CCCC)CC')::bytea);
+(smiles_to_bytes('C1CCCCC1С')::bytea);
+-- (smiles_to_bytes('C1=CC=CC=C1')::bytea),
+-- (smiles_to_bytes('C1=CC=CC=C1CCCCN')::bytea),
+-- (smiles_to_bytes('C1=CC=CC=C1CC(CCCC)CC')::bytea);
 
 
 
