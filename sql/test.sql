@@ -1,4 +1,5 @@
 CREATE TABLE public.mol_table (
+    smiles text,
     mol_bytes bytea
 );
 
@@ -7,11 +8,11 @@ select smiles_to_bytes('C1CCCCC1')::bytea;
 
 
 INSERT INTO public.mol_table (mol_bytes) VALUES 
-(smiles_to_bytes('C1CCCCC1')::bytea),
-(smiles_to_bytes('C1CCCCC1CC')::bytea),
-(smiles_to_bytes('C1=CC=CC=C1')::bytea),
-(smiles_to_bytes('C1=CC=CC=C1CCCCN')::bytea),
-(smiles_to_bytes('C1=CC=CC=C1CC(CCCC)CC')::bytea);
+('C1CCCCC1', smiles_to_bytes('C1CCCCC1')::bytea),
+('C1CCCCC1CC', smiles_to_bytes('C1CCCCC1CC')::bytea),
+('C1=CC=CC=C1', smiles_to_bytes('C1=CC=CC=C1')::bytea),
+('C1=CC=CC=C1CCCCN', smiles_to_bytes('C1=CC=CC=C1CCCCN')::bytea),
+('C1=CC=CC=C1CC(CCCC)CC', smiles_to_bytes('C1=CC=CC=C1CC(CCCC)CC')::bytea);
 
 
 
