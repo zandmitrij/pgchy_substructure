@@ -1,0 +1,6 @@
+# pgchy_substructure.control
+
+comment = 'Chython substructure search extension for PostgreSQL'
+default_version = '1.0'
+relocatable = true
+module_pathname = '$libdir/pgchy_substructure'
