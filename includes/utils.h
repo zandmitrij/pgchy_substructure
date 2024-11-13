@@ -19,11 +19,11 @@ void read_32(char *buffer, uint32_t* numbers, int size);
 
 
 typedef struct {
-    unsigned int *path;
-    unsigned int *stack_index;
-    unsigned int *stack_depth;
+    uint32_t *path;
+    uint32_t *stack_index;
+    uint32_t *stack_depth;
     bool *matched;
-    unsigned long long *closures;
+    uint64_t *o_closures;
 } MemoryBuffer;
 
 

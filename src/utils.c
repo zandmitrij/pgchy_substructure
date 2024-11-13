@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <includes/utils.h>
+
+#include <utils.h>
 
 
 int read_size(unsigned char *buffer) {
-    int s = (int)((buffer[1] << 8) | buffer[0]) - 2;
-    printf("Read size: %d (buffer[0]: %d, buffer[1]: %d)\n", s, buffer[0], buffer[1]);
+    int s = (int)((buffer[1] << 8) | buffer[0]);
     return s;
 }
 
@@ -45,24 +45,27 @@ void read_32(char *buffer, uint32_t* numbers, int size) {
 
 
 MemoryBuffer allocate_buffers(size_t q_size_dec, size_t mol_size) {
-    MemoryBuffer buf;
-    buf.path = (unsigned int *)malloc(q_size_dec * sizeof(unsigned int));
-    buf.stack_index = (unsigned int *)malloc(2 * mol_size * sizeof(unsigned int));
-    buf.stack_depth = (unsigned int *)malloc(2 * mol_size * sizeof(unsigned int));
-    buf.matched = (bool *)malloc(mol_size * sizeof(bool));
-    buf.closures = (unsigned long long *)malloc(mol_size * sizeof(unsigned long long));
 
-    if (!buf.path || !buf.stack_index || !buf.stack_depth || !buf.matched || !buf.closures) {
-        free(buf.path);
-        free(buf.stack_index);
-        free(buf.stack_depth);
-        free(buf.matched);
-        free(buf.closures);
+    uint32_t *path = (uint32_t*) malloc(q_size_dec * sizeof(uint32_t));
+    uint32_t *stack_index = (uint32_t*) malloc(2 * mol_size * sizeof(uint32_t));
+    uint32_t *stack_depth = (uint32_t*) malloc(2 * mol_size * sizeof(uint32_t));
+    bool *matched = (bool*)malloc(mol_size * sizeof(bool));
+    uint64_t *o_closures = (uint64_t*) malloc(mol_size * sizeof(uint64_t));
+
+    if (path == NULL || stack_index == NULL || stack_depth == NULL || matched == NULL || o_closures == NULL) {
+        free(path);
+        free(stack_index);
+        free(stack_depth);
+        free(matched);
+        free(o_closures);
         perror("Memory allocation failed");
         exit(EXIT_FAILURE);
     }
-    memset(buf.matched, 0, mol_size * sizeof(bool));
-    memset(buf.closures, 0, mol_size * sizeof(unsigned long long));
+
+    memset(matched, 0, mol_size * sizeof(bool));
+    memset(o_closures, 0, mol_size * sizeof(uint64_t));
+
+    MemoryBuffer buf = {path, stack_index, stack_depth, matched, o_closures};
     return buf;
 }
 
@@ -72,6 +75,6 @@ void free_buffers(MemoryBuffer* buf) {
     free(buf->stack_index);
     free(buf->stack_depth);
     free(buf->matched);
-    free(buf->closures);
+    free(buf->o_closures);
 }
 
