@@ -5,6 +5,8 @@
 #include <stdlib.h>
 
 #include <query.h>
+#include <mol.h>
+#include <get_mapping.h>
 
 
 char* read_file(const char* filepath) {
@@ -28,25 +30,18 @@ char* read_file(const char* filepath) {
 
 
 int main() {
-    const char* filepath = "molbytes";
+    const char* q_filepath = "qbytes";
+    const char* o_filepath = "molbytes";
 
-    char* buffer = read_file(filepath);
-    QMol query = create_QMol(buffer);
+    char* q_buffer = read_file(q_filepath);
+    QMol query = create_QMol(q_buffer);
 
-    printf("atoms: %lu\n", query.atoms_count);
-    for (int i = 0; i < query.atoms_count; i++) {
-        QAtom atom = query.atoms[i];
-        printf("%lu, %lu, %lu, %lu, %u, %u, %u, %u\n", atom.mask1, atom.mask2, atom.mask3, atom.mask4, atom.back, atom.closure, atom.from, atom.to);
-    }
-    printf("\n");
+    char* o_buffer = read_file(o_filepath);
+    OMol mol = create_OMol(o_buffer);
 
-    printf("bonds: %lu\n", query.bonds_count);
-    for (int i = 0; i < query.bonds_count; i++) {
-        QBond bond = query.bonds[i];
-        printf("%lu, %u\n", bond.bond, bond.index);
-    }
-    printf("\n");
+    int res = get_mapping(&query, &mol);
+    
+    printf("%u\n", res);
 
     return 0;
-
 }
