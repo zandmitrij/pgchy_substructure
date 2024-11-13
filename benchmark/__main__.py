@@ -1,55 +1,60 @@
-from .mol import read_mol, pack_mol, unpack_mol, save_mol
-from .mapping import mapping
-from .query import read_query, pack_query, unpack_query, save_query
+import argparse
+
+from . import mol
+from . import query
+from . import utils
+from . import tests
+
 
 import chython
 
-def get_mol_structure(smiles: str):
-    mol = chython.smiles(smiles)
-    return unpack_mol((pack_mol(mol)))
 
+def arguments() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    
+    subparsers = parser.add_subparsers(dest='command')
 
-def get_query_structure(smarts: str):
-    q = chython.smarts(smarts)
-    return unpack_query(pack_query(q))
+    smiles = subparsers.add_parser('smiles', help='generate bytes struct for SMILES')
+    smiles.add_argument('smiles', type=str, help='SMILES to generate bytes')
+    smiles.add_argument('--output', '-o', help='output file', default='./molbytes')
+
+    smarts = subparsers.add_parser('smarts', help='generate bytes struct for SMARTS')
+    smarts.add_argument('smarts', type=str, help='SMARTS to generate bytes')
+    smarts.add_argument('--output', '-o', help='output file', default='./querybytes')
+
+    smiles_checker = subparsers.add_parser('check_smiles', help='testing c program')
+    smiles_checker.add_argument('smiles', type=str, help='SMILES check if reading is correct')
+    smiles_checker.add_argument('--executable', type=str, help='binary c file', required=True)
+
+    smarts_checker = subparsers.add_parser('check_smarts', help='testing c program')
+    smarts_checker.add_argument('smarts', type=str, help='SMARTS check if reading is correct')
+    smarts_checker.add_argument('--executable', type=str, help='binary c file', required=True)
+
+    mapping_checker = subparsers.add_parser('check_mapping', help='testing c program')
+    mapping_checker.add_argument('--executable', type=str, help='binary c file', required=True)
+    mapping_checker.add_argument('--res', type=int, help='binary c file', required=True)
+
+    return parser.parse_args()
 
 
 def main():
-    
-    # smiles = 'CC(=O)OC1=CC=CC=C1C(=O)O'
-    smiles = 'C1CCCC1'
-    
-    pack_mol(chython.smiles(smiles))
-    # smarts = 'CC(=O)O'
-    # save_mol(smiles=smiles, filepath='../data/mol_bytes3')
-    # save_query(smarts=smarts, filepath='../data/query_bytes3')
-    
-    # mol_struct = get_mol_structure(smiles)
-    
-    # save
-    # query_struct = get_query_structure()
-    # query_struct = read_query('../data/query_bytes3')
-    # mol_struct = read_mol('../data/mol_bytes3')
-    
-    # for i in mol_struct:
-    #     print(i)
+    args = arguments()
 
-    # x = mapping(query_struct, mol_struct)
-    # print(x)
+    if args.command == 'smiles':
+        mol.save(args.smiles, args.output)
 
+    elif args.command == 'smarts':
+        query.save(args.smarts, args.output)
 
-if __name__ == "__main__":
+    elif args.command == 'check_smiles':
+        tests.check_smiles_read(args.executable, args.smiles)
+
+    elif args.command == 'check_smarts':
+        tests.check_smarts_read(args.executable, args.smarts)
+
+    elif args.command == 'check_mapping':
+        tests.check_mapping(args.executable, args.res)
+        
+
+if __name__ == '__main__':
     main()
-
-
-# typedef struct {
-#     uint64_t* numbers;
-#     uint64_t* bits1;
-#     uint64_t* bits2;
-#     uint64_t* bits3;
-#     uint64_t* bits4;
-#     uint64_t* bonds;
-#     uint32_t* from;
-#     uint32_t* to;
-#     uint32_t* indices;
-# } OMol;
