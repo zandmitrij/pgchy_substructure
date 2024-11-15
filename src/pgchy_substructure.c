@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <mol.h>
+#include <includes/mol.h>
 #include <query.h>
 #include <utils.h>
 #include <get_mapping.h>
@@ -11,6 +11,7 @@
 
 #include "postgres.h"
 #include "fmgr.h"
+
 
 #ifdef PG_MODULE_MAGIC
 PG_MODULE_MAGIC;
