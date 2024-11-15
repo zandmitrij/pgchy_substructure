@@ -50,7 +50,7 @@ import chython
 from sys import byteorder
 from array import array
 
-query = chython.smiles(smiles)
+mol_container = chython.smiles(smiles)
 
 atom_sizes = (8, 8, 8, 8, 4, 4)
 bond_sizes = (8, 4)
