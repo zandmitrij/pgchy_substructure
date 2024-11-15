@@ -9,7 +9,7 @@ PG_CONFIG = pg_config
 PGXS := $(shell $(PG_CONFIG) --pgxs)
 include $(PGXS)
 
-PG_CFLAGS += -I$(shell $(PG_CONFIG) --includedir-server) -O3 -msse4.2
+PG_CFLAGS += -I$(shell $(PG_CONFIG) --includedir-server) -I./includes -O3 -msse4.2
 PG_CFLAGS += src/*
 install:
 	$(MKDIR_P) '$(DESTDIR)$(shell $(PG_CONFIG) --pkglibdir)'
@@ -17,18 +17,6 @@ install:
 	$(MKDIR_P) '$(DESTDIR)$(shell $(PG_CONFIG) --sharedir)/extension'
 	$(INSTALL_DATA) pgchy_substructure.control '$(DESTDIR)$(shell $(PG_CONFIG) --sharedir)/extension'
 	$(INSTALL_DATA) sql/pgchy_substructure--1.0.sql '$(DESTDIR)$(shell $(PG_CONFIG) --sharedir)/extension'
-
-
-test:
-	gcc -I./includes test_o.c src/mol.c src/utils.c -o test_o
-	./test_o
-	rm ./test_o
-
-
-test_1:
-	gcc -I./includes test_q.c src/query.c src/utils.c -o test_q
-	./test_q
-	rm test_q
 
 
 test_o:

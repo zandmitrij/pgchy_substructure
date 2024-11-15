@@ -2,11 +2,12 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
-#include <includes/pgchy_substructure.h>
-#include <includes/mol.h>
-#include <includes/query.h>
-#include <includes/utils.h>
-#include <includes/get_mapping.h>
+
+#include <mol.h>
+#include <query.h>
+#include <utils.h>
+#include <get_mapping.h>
+#include <pgchy_substructure.h>
 
 #include "postgres.h"
 #include "fmgr.h"
@@ -26,7 +27,7 @@ Datum is_substructure(PG_FUNCTION_ARGS) {
     bytea* mol_bytes = PG_GETARG_BYTEA_P(1);
 
     QMol query = create_QMol(VARDATA(query_bytes));
-    OMol mol = create_Mol(VARDATA(mol_bytes));
+    OMol mol = create_OMol(VARDATA(mol_bytes));
 
     bool result = get_mapping(&query, &mol);
 
