@@ -16,7 +16,7 @@ from sys import byteorder
 from array import array
 atom_sizes = (8, 8, 8, 8, 4, 4, 4, 4)
 bond_sizes = (8, 4)
-
+query = chython.smarts(smarts)
 if query.connected_components_count != 1:
     return None
 
@@ -49,6 +49,9 @@ as $function$
 import chython
 from sys import byteorder
 from array import array
+
+query = chython.smiles(smiles)
+
 atom_sizes = (8, 8, 8, 8, 4, 4)
 bond_sizes = (8, 4)
 
