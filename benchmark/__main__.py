@@ -2,11 +2,7 @@ import argparse
 
 from . import mol
 from . import query
-from . import utils
 from . import tests
-
-
-import chython
 
 
 def arguments() -> argparse.Namespace:

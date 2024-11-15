@@ -13,15 +13,31 @@ language plpython3u
 as $function$
 import chython
 from sys import byteorder
-query = chython.smarts(smarts)
+from array import array
+atom_sizes = (8, 8, 8, 8, 4, 4, 4, 4)
+bond_sizes = (8, 4)
+
 if query.connected_components_count != 1:
     return None
-package = []
-for x in query._cython_compiled_query[0]:
-    package.append((x.itemsize * len(x) + 2).to_bytes(2, byteorder))
-    package.append(x)
-return b''.join(package)
 
+_, back, masks1, masks2, masks3, masks4, closures, from_, to, indices, bonds =  query._cython_compiled_query[0]
+
+atoms_count = len(masks1).to_bytes(2, byteorder)
+bonds_count = len(bonds).to_bytes(2, byteorder)
+
+atoms_ = []
+for i in zip(masks1, masks2, masks3, masks4, back, closures, from_, to):
+    for size, j in zip(atom_sizes, i):
+        x = j.to_bytes(size, byteorder)
+        atoms_.append(x)
+
+bonds_ = []
+for i in zip(bonds, indices):
+    for size, j in zip(bond_sizes, i):
+        x = j.to_bytes(size, byteorder)
+        bonds_.append(x)
+
+return b''.join([atoms_count, bonds_count, *atoms_, *bonds_])
 $function$;
 
 
@@ -33,14 +49,26 @@ as $function$
 import chython
 from sys import byteorder
 from array import array
-mol_container = chython.smiles(smiles)
-package = []
-for x in mol_container._cython_compiled_structure:
-    package.append((x.itemsize * len(x) + 2).to_bytes(2, byteorder))
-    package.append(x)
-x = array('I', [1 for _ in mol_container])
-package.append((x.itemsize * len(x) + 2).to_bytes(2, byteorder))
-package.append(x)
-return b''.join(package)
+atom_sizes = (8, 8, 8, 8, 4, 4)
+bond_sizes = (8, 4)
+
+_, bits1, bits2, bits3, bits4, bonds, from_, to, indices =  mol_container._cython_compiled_structure
+
+atoms_count = len(bits1).to_bytes(2, byteorder)
+bonds_count = len(bonds).to_bytes(2, byteorder)
+
+atoms_ = []
+for i in zip(bits1, bits2, bits3, bits4, from_, to):
+    for size, j in zip(atom_sizes, i):
+        x = j.to_bytes(size, byteorder)
+        atoms_.append(x)
+
+bonds_ = []
+for i in zip(bonds, indices):
+    for size, j in zip(bond_sizes, i):
+        x = j.to_bytes(size, byteorder)
+        bonds_.append(x)
+
+return b''.join([atoms_count, bonds_count, *atoms_, *bonds_])
 
 $function$;
