@@ -4,10 +4,10 @@
 #include <string.h>
 
 #include <includes/mol.h>
-#include <query.h>
-#include <utils.h>
-#include <get_mapping.h>
-#include <pgchy_substructure.h>
+#include <includes/query.h>
+#include <includes/utils.h>
+#include <includes/get_mapping.h>
+#include <includes/pgchy_substructure.h>
 
 #include "postgres.h"
 #include "fmgr.h"

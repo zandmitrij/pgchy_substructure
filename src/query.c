@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <query.h>
-#include <utils.h>
+#include <includes/query.h>
+#include <includes/utils.h>
 
 
 QMol create_QMol(unsigned char* buffer) {

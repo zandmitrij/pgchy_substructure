@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <mol.h>
-#include <query.h>
-#include <get_mapping.h>
-#include <utils.h>
+#include <includes/mol.h>
+#include <includes/query.h>
+#include <includes/get_mapping.h>
+#include <includes/utils.h>
 
 
 int get_mapping(QMol *query, OMol *mol) {
