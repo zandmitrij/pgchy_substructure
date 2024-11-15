@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <mol.h>
-#include <utils.h>
+#include <includes/mol.h>
+#include <includes/utils.h>
 
 
 OMol create_OMol(unsigned char* buffer) {
